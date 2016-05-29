@@ -3,12 +3,14 @@
 import sys
 import os
 
-
 #*****************************************************
 def main(argv):
     # usage()
     compress_audio_files_in_dir_to_mp3()
 #*****************************************************
+
+def usage():
+    print "\nNo usage yet\n"
 
 def compress_audio_files_in_dir_to_mp3():
     # get directory where script is executing
@@ -21,13 +23,7 @@ def compress_valid_files(cwd, files):
     for f in files:
         file_path = os.path.join(cwd, f)
         if file_is_valid(file_path):
-            print "there are valid files"
-        else:
-            print "no valid files to compress"
-        
-    # print os.path.dirname(os.path.realpath(__file__))
-    # print os.getcwd()
-    # print os.listdir(os.getcwd())
+            compress_file(file_path)
 
 def file_is_valid(file_path):
     valid_extensions = ["aif", "aiff", "AIF", "AIFF", "wav", "WAV"]
@@ -38,8 +34,12 @@ def file_is_valid(file_path):
             break
     return (not os.path.isdir(file_path) and os.path.isfile(file_path) and is_extension_valid)
 
-def usage():
-    print "\nNo usage yet\n"
+def compress_file(file_path):
+    print "compressing ", file_path
+    # changed_extension = file_path.replace("."+ext, ".mp3")
+    # TODO: os.system is deprecated, replace with subprocess.call
+    os.system("ffmpeg -i "+file_path+" -f mp3 -acodec libmp3lame -ab 192000 -ar 44100 IFeelHeavyExport_Raw.mp3")
+
 
 #*****************************************************
 
