@@ -38,9 +38,9 @@ def file_is_valid(file_path):
 def compress_file(file_path):
     print "compressing ", file_path
     file_ext = get_file_extension(file_path)
-    changed_extension = file_path.replace(file_ext, ".mp3")
+    file_changed_extension = file_path.replace(file_ext, ".mp3")
     # TODO: os.system is deprecated, replace with subprocess.call
-    os.system("ffmpeg -i "+file_path+" -f mp3 -acodec libmp3lame -ab 192000 -ar 44100 IFeelHeavyExport_Raw.mp3")
+    os.system("ffmpeg -i "+file_path+" -f mp3 -acodec libmp3lame -ab 192000 -ar 44100 "+file_changed_extension)
 
 # TODO: dont like duplicating logic
 def get_file_extension(file_path):
