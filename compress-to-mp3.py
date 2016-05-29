@@ -3,6 +3,8 @@
 import sys
 import os
 
+VALID_EXTENSIONS = ["aif", "aiff", "AIF", "AIFF", "wav", "WAV"]
+
 #*****************************************************
 def main(argv):
     # usage()
@@ -26,9 +28,8 @@ def compress_valid_files(cwd, files):
             compress_file(file_path)
 
 def file_is_valid(file_path):
-    valid_extensions = ["aif", "aiff", "AIF", "AIFF", "wav", "WAV"]
     is_extension_valid = False
-    for ext in valid_extensions:
+    for ext in VALID_EXTENSIONS:
         if file_path.endswith(ext):
             is_extension_valid = True
             break
@@ -36,9 +37,19 @@ def file_is_valid(file_path):
 
 def compress_file(file_path):
     print "compressing ", file_path
-    # changed_extension = file_path.replace("."+ext, ".mp3")
+    file_ext = get_file_extension(file_path)
+    changed_extension = file_path.replace(file_ext, ".mp3")
     # TODO: os.system is deprecated, replace with subprocess.call
     os.system("ffmpeg -i "+file_path+" -f mp3 -acodec libmp3lame -ab 192000 -ar 44100 IFeelHeavyExport_Raw.mp3")
+
+# TODO: dont like duplicating logic
+def get_file_extension(file_path):
+    file_ext = ""
+    for ext in VALID_EXTENSIONS:
+        if file_path.endswith(ext):
+            file_ext = "."+ext
+            break
+    return file_ext
 
 
 #*****************************************************
