@@ -5,6 +5,10 @@ import os
 
 VALID_EXTENSIONS = ["aif", "aiff", "AIF", "AIFF", "wav", "WAV"]
 
+# TODO: expand to convert flac
+# ffmpeg -i "$file" -ab 320k -map_metadata 0 -id3v2_version 3 "$file".mp3
+
+
 #*****************************************************
 def main(argv):
     # usage()
@@ -40,7 +44,7 @@ def compress_file(file_path):
     file_ext = get_file_extension(file_path)
     file_changed_extension = file_path.replace(file_ext, ".mp3")
     # TODO: os.system is deprecated, replace with subprocess.call
-    os.system("ffmpeg -i "+file_path+" -f mp3 -acodec libmp3lame -ab 192000 -ar 44100 "+file_changed_extension)
+    os.system("ffmpeg -i "+shellquote(file_path)+" -f mp3 -acodec libmp3lame -ab 192000 -ar 44100 "+shellquote(file_changed_extension))
 
 # TODO: dont like duplicating logic
 def get_file_extension(file_path):
@@ -50,6 +54,9 @@ def get_file_extension(file_path):
             file_ext = "."+ext
             break
     return file_ext
+
+def shellquote(s):
+    return "'" + s.replace("'", "'\\''") + "'"
 
 
 #*****************************************************
