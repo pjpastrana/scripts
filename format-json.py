@@ -33,7 +33,8 @@ def main(jsonInput):
         format_json_string(jsonInput)
     
 if __name__ == "__main__":
-    main(sys.argv[1])
+    #main(sys.argv[1])
+    main(TEST_JSON_STRING)
     
     
 # TODO:
