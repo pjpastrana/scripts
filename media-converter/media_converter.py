@@ -25,8 +25,7 @@ def usage():
 
 def convert_to(format):
     get_output_extension(format)
-    (cwd, files) = list_directory_content()
-    convert_valid_files(cwd, files)
+    convert_valid_files()
     
 
 def get_output_extension(format):
@@ -41,19 +40,17 @@ def get_output_extension(format):
         print "ERROR: Unknown output format"
         exit(1)
 
-def list_directory_content():
-    # get directory where script is executing
-    cwd = os.getcwd()
-    # list files in cwd
-    files = os.listdir(os.getcwd())
-    return(cwd, files)
-
-def convert_valid_files(cwd, files):
-    for f in files:
-        file_path = os.path.join(cwd, f)
-        (is_extension_valid, file_ext) = file_is_valid(file_path)
-        if is_extension_valid:
-            convert_file(file_path, file_ext)
+def convert_valid_files():
+    root = os.getcwd()
+    for dirpath, dnames, files in os.walk(root):
+        print "dirpath ", dirpath
+        print "dirnames ", dnames
+        print "fnames ", files
+        for f in files:
+            file_path = os.path.join(dirpath, f)
+            (is_extension_valid, file_ext) = file_is_valid(file_path)
+            if is_extension_valid:
+                convert_file(file_path, file_ext)
 
 def file_is_valid(file_path):
     is_extension_valid = False
